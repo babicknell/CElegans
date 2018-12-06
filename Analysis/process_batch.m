@@ -28,6 +28,7 @@ fnames = {list.name};
 name{length(fnames)} = [];
 len{length(fnames)} = [];
 len_p{length(fnames)} = [];
+len_d{length(fnames)} = [];
 tort{length(fnames)} = [];
 fDist{length(fnames)} = [];
 mDist{length(fnames)} = [];
@@ -58,7 +59,7 @@ for k=1:length(fnames)
     if length(N) < 2 || length(N) > 3
        fprintf('Tracing error.\n')
     elseif length(N)==2
-        N = [N, length(coords{1}+1)];
+        N = [N, length(coords{1})+1];
     end
 
 % Arclength parmeterisation of degenerating and regenerating axons.
@@ -157,6 +158,7 @@ for k=1:length(fnames)
     name{k} = fnames{k}(1:end-4);
     len{k} = length(Xr)/sf;
     len_p{k} = y_hat(end)/sf;
+    len_d{k} = length(Xd)/sf;
     tort{k} = len{k}/(sqrt((Xr(1, end) - Xr(1, 1)).^2 + (Xr(2, end) - Xr(2, 1)).^2)/sf);
     fDist{k} = x_min(end)/sf;
     mDist{k} = mean(abs((x_min/sf)));
@@ -190,7 +192,7 @@ figname = ['../Results/',parts{2}{1},'.pdf'];
 figure(1);
 print('-dpdf',figname)
 close(figure(1));
-S = struct('Name', name, 'Length', len, 'Length_proj', len_p, 'Tortuosity', tort, ...
+S = struct('Name', name, 'Length', len, 'Length_proj', len_p, 'Length_distal', len_d, 'Tortuosity', tort, ...
     'Final_dist', fDist, 'Mean_dist', mDist, 'Final_ang', fAng, 'Mean_ang', mAng,...
     'Degen', degen, 'Regrew', regrew, 'Reconnected', recon, 'Fused', fused);
 save(['../Results/', parts{2}{1}], 'S')
