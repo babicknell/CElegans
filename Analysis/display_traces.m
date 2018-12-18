@@ -42,7 +42,7 @@ for k = ki:kf
         fprintf('Tracing error.\n')
         continue
     elseif length(N) == 2
-        N = [N, length(coords{1}+1)];
+        N = [N; length(coords{1}) + 1];
     end
     % Arclength parmeterisation of degenerating and regenerating axons.
     [xd, yd] = arclength(str2double(coords{1}(2:N(2)-1)),...
@@ -192,7 +192,6 @@ for k = ki:kf
 %     plot([d_ind,d_ind]/sf, [0,100], 'r--')
 %     legend('Raw', 'Backgound', 'Subtracted', 'Cut')
 %     hold off
-    
     pause
 end
 

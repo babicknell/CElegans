@@ -59,7 +59,7 @@ for k=1:length(fnames)
     if length(N) < 2 || length(N) > 3
        fprintf('Tracing error.\n')
     elseif length(N)==2
-        N = [N, length(coords{1})+1];
+        N = [N; length(coords{1})+1];
     end
 
 % Arclength parmeterisation of degenerating and regenerating axons.
