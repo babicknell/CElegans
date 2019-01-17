@@ -24,20 +24,21 @@ end
 
 list = dir([imageDir, '/2*.txt']);
 fnames = {list.name};
-
-name{length(fnames)} = [];
-len{length(fnames)} = [];
-len_p{length(fnames)} = [];
-len_d{length(fnames)} = [];
-tort{length(fnames)} = [];
-fDist{length(fnames)} = [];
-mDist{length(fnames)} = [];
-fAng{length(fnames)} = [];
-mAng{length(fnames)} = [];
-degen{length(fnames)} = [];
-recon{length(fnames)} = [];
-regrew{length(fnames)} = [];
-fused{length(fnames)} = [];
+n = length(fnames);
+name{n} = [];
+len{n} = [];
+len_p{n} = [];
+len_d{n} = [];
+tort{n} = [];
+fDist{n} = [];
+mDist{n} = [];
+fAng{n} = [];
+mAng{n} = [];
+degen{n} = [];
+recon{n} = [];
+regrew{n} = [];
+fused{n} = [];
+xy_coords{n} = [];
 %% Process
 for k=1:length(fnames)
     fprintf([fnames{k}, '\n'])
@@ -172,6 +173,7 @@ for k=1:length(fnames)
         tort{k}=nan;
     end
     degen{k} = V_rel_av;
+    xy_coords{k} = [x_hat/sf; y_hat/sf]';
 
     % Plot
     figure(1);
@@ -192,7 +194,7 @@ figname = ['../Results/',parts{2}{1},'.pdf'];
 figure(1);
 print('-dpdf',figname)
 close(figure(1));
-S = struct('Name', name, 'Length', len, 'Length_proj', len_p, 'Length_distal', len_d, 'Tortuosity', tort, ...
+S = struct('Name', name, 'Coords', xy_coords, 'Length', len, 'Length_proj', len_p, 'Length_distal', len_d, 'Tortuosity', tort, ...
     'Final_dist', fDist, 'Mean_dist', mDist, 'Final_ang', fAng, 'Mean_ang', mAng,...
     'Degen', degen, 'Regrew', regrew, 'Reconnected', recon, 'Fused', fused);
 save(['../Results/', parts{2}{1}], 'S')
