@@ -1,7 +1,8 @@
 function add_avg_lengths(strains, vals)
 % Add measurementns of original axon length to results data structures.
 %Input: 'strains' is a cell of strings eg. {'CZ10175', 'QH6084'}
-%       'vals' is a vector of length values for each strain (um)
+%       'vals' is a cell of length vectors for each strain eg. {[100, 45,
+%       90], [100,100,123]}
 
 if strcmp(strains,'all')
     strains = {'CZ10175', 'QH6084', 'QH6095', 'QH6101', 'QH6106', 'QH6108',...
