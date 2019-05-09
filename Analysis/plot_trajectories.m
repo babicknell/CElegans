@@ -9,7 +9,6 @@ S1 = S1.S;
 S2 = load(['../Results/', strain2, '.mat']);
 S2 = S2.S;
 
-
 figure(1);
 plot([0, 0], [0, 250],'b--','LineWidth',2);
 hold on

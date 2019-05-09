@@ -34,16 +34,22 @@ for j = 1:length(strains)
         Pavg(k) = sum((ang)<theta(k))/length(ang);    
     end
 
-    %final angle%
+    %final angle cumulative%
     plot(theta,Pf)
     xlabel('$\theta$ (degrees)', 'Interpreter', 'latex', 'FontSize',18)
-    ylabel('$P(|\theta_{final}|>\theta)$', 'Interpreter', 'latex', 'FontSize',18)
+    ylabel('$P(|\theta_{final}|<\theta)$', 'Interpreter', 'latex', 'FontSize',18)
     hold on
 
+%     %final angle complementray cumulative%
+%     plot(theta,1 - Pf)
+%     xlabel('$\theta$ (degrees)', 'Interpreter', 'latex', 'FontSize',18)
+%     ylabel('$P(|\theta_{final}|>\theta)$', 'Interpreter', 'latex', 'FontSize',18)
+%     hold on
+    
     %mean angle%
     % plot(theta,Pavg)
     % xlabel('$\theta$ (degrees)', 'Interpreter', 'latex', 'FontSize', 18)
-    % ylabel('$P(|\theta|_{avg}>\theta)$', 'Interpreter', 'latex', 'FontSize', 18)
+    % ylabel('$P(|\theta|_{avg}<\theta)$', 'Interpreter', 'latex', 'FontSize', 18)
     % hold on
      
     A{j} = fang;

@@ -1,7 +1,7 @@
 function A = angle_plot(strains)
 
 %Input: strains is a cell of strings, eg. strains = {'CZ10175','QH6084'}
-%Output: A is a matrix of final ange values for each strain padded with 
+%Output: A is a matrix of final angle values for each strain padded with 
 %        NaNs (necessary for using boxplot). 
 
 if strcmp(strains,'all')
