@@ -26,7 +26,8 @@ for k=1:length(strains)
     distal_length = S(k).Length_distal;
     if len_flag && isfield(S, 'Length_orig')
         av_orig_length = mean(S(k).Length_orig);
-        deg_index = 1 - deg*distal_length/av_orig_length;
+        prox_length = 100 + S(k).Cut_site;
+        deg_index = 1 - deg*(distal_length - prox_length)/(av_orig_length - prox_length);
     else
         deg_index = 1 - deg;
     end
