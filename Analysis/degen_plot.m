@@ -1,6 +1,8 @@
-function [strains,D,P,T] = degen_plot(strains)
+function [strains,D,P,T] = degen_plot(strains, len_flag)
 
-%Input: strains is a cell of strings, eg. strains = {'CZ10175','QH6084'}
+%Input: strains is a cell of strings, eg. strains = {'CZ10175','QH6084'},
+%       len_flag (True/False) scales by distal/av_original lengths if the 
+%       measurement exists.
 %Output: D is a matrix of relative fluorescence values for each strain
 %        padded with NaNs (necessary for using boxplot).
 %        P, T are aresults of ranksum and t-tests.        
@@ -12,7 +14,7 @@ if strcmp(strains,'all')
 end
 
 D_max = 300;
-N=length(strains);
+N = length(strains);
 Mean = zeros(1, N);
 STD = zeros(1, N);
 D = nan(D_max ,N);
@@ -21,16 +23,24 @@ for k=1:length(strains)
     S = load(['../Results/', strains{k}, '.mat']);
     S = S.S;
     deg = [S.Degen]';
+    distal_length = S(k).Length_distal;
+    if len_flag && isfield(S, 'Length_orig')
+        av_orig_length = mean(S(k).Length_orig);
+        deg_index = 1 - deg*distal_length/av_orig_length;
+    else
+        deg_index = 1 - deg;
+    end
     rec_ind = find([S.Reconnected]);
-    deg(rec_ind)=[]; % ignore reconnected
-    D(1:length(deg), k) = deg;
-    Mean(k) = mean(deg);
-    STD(k) = std(deg);
+    deg_index(rec_ind)=[]; % ignore reconnected
+    D(1:length(deg_index), k) = deg_index;
+    Mean(k) = mean(deg_index);
+    STD(k) = std(deg_index);
 end
 
 boxplot(D, 'labels', strains, 'labelorientation', 'inline')
-ylabel('relative fluorescence', 'Interpreter', 'Latex', 'FontSize', 20)
-set(gca, 'FontSize', 20)
+ylabel('degeneration index', 'Interpreter', 'Latex', 'FontSize', 20)
+
+set(gca, 'FontSize', 20, 'ylim', [0, 1])
 hold on
 plot(1:length(strains), Mean, 'ks')
 hold off
