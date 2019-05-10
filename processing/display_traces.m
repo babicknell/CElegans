@@ -42,7 +42,7 @@ for k = ki:kf
     % Parameterise traces and extract pixel values 
     [X_d, X_r, X_b] = parameterise(coords_d, coords_r);
     [X_d_T, X_r_T, Z_r, d_ind] = transform(X_d, X_r, dims, sf, dorsal_flag);
-    [V, B] = get_fluorescence(X_d, X_b, I);
+    [V, B] = get_fluorescence(X_d, X_r, X_b, I);
     
     V_sub = V - B;  %background subtraction
     V_sub(V_sub<0) = 0;
@@ -102,13 +102,7 @@ for k = ki:kf
 %     plot((1:length(B))/sf, V_sub, 'b')
 %     plot([d_ind,d_ind]/sf, [0,100], 'r--')
 %     legend('Raw', 'Backgound', 'Subtracted', 'Cut')
-    hold off
+%     hold off
     pause
 end
-
-
-
-
-
-
 

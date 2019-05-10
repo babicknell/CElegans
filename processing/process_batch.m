@@ -60,15 +60,14 @@ for k=1:length(fnames)
     % Parameterise traces and extract pixel values 
     [X_d, X_r, X_b] = parameterise(coords_d, coords_r);
     [X_d_T, ~, Z_r, d_ind] = transform(X_d, X_r, dims, sf, dorsal_flag);
-    [V, B] = get_fluorescence(X_d, X_b, I);
+    [V, B] = get_fluorescence(X_d, X_r, X_b, I);
     
     % measurements
-    distal_s = sf*max(Z_r(2, :)) + d_ind; % first index of degen distal to regen tip 
-    distal_f = length(V);
+    distal_s = d_ind + round(100*sf); % average from 100 um distal to cut 
     V_sub = V - B;  %background subtraction
     V_sub(V_sub<0) = 0;
     V_rel = V_sub./mean(V_sub(1:d_ind)); %relative to initial segment
-    V_rel_av = mean(V_rel(distal_s:distal_f));
+    V_rel_av = mean(V_rel(distal_s:end));
     
     r_dist = abs(Z_r(1, :));
     r_dist(Z_r(2, :) < 0) = sqrt(sum(X_d_T(:, Z_r(2, :) < 0).^2)); 
