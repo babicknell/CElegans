@@ -28,6 +28,7 @@ n = length(fnames);
 name{n} = [];
 len{n} = [];
 len_d{n} = [];
+cut_site{n} = [];
 tort{n} = [];
 fDist{n} = [];
 mDist{n} = [];
@@ -64,7 +65,7 @@ for k=1:length(fnames)
     
     % measurements
     distal_s = d_ind + round(100*sf); % average from 100 um distal to cut 
-    V_sub = V - B;  %background subtraction
+    V_sub = V - B;  % background subtraction
     V_sub(V_sub<0) = 0;
     V_rel = V_sub./mean(V_sub(1:d_ind)); %relative to initial segment
     V_rel_av = mean(V_rel(distal_s:end));
@@ -75,6 +76,7 @@ for k=1:length(fnames)
     name{k} = fnames{k}(1:end-4);
     len{k} = size(X_r, 2)/sf;
     len_d{k} = size(X_d, 2)/sf;
+    cut_site{k} = d_ind/sf;
     tort{k} = len{k}/(sqrt((X_r(1, end) - X_r(1, 1)).^2 + (X_r(2, end) - X_r(2, 1)).^2)/sf);
     fDist{k} = r_dist(end);
     mDist{k} = mean(r_dist);
@@ -109,7 +111,7 @@ figname = ['../Results/',parts{2}{1},'.pdf'];
 figure(1);
 print('-dpdf',figname)
 close(figure(1));
-S = struct('Name', name, 'Coords', xy_coords, 'Length', len, 'Length_distal', len_d, 'Tortuosity', tort, ...
+S = struct('Name', name, 'Coords', xy_coords, 'Length', len, 'Length_distal', len_d, 'Cut_site', cut_site, 'Tortuosity', tort, ...
     'Final_dist', fDist, 'Mean_dist', mDist, 'Final_ang', fAng, 'Mean_ang', mAng,...
     'Degen', degen, 'Regrew', regrew, 'Reconnected', recon, 'Fused', fused);
 save(['../Results/', parts{2}{1}], 'S')
